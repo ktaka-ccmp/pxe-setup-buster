@@ -1,17 +1,17 @@
 
 TOP_DIR=/pxeboot
-TFTP_DIR=${TOP_DIR}/tftpd/img/jessie64
-NGINX_DIR=${TOP_DIR}/nginx/jessie64
+TFTP_DIR=${TOP_DIR}/tftpd/img/buster64
+NGINX_DIR=${TOP_DIR}/nginx/buster64
 SRC_DIR=./SRC
 
 
-KERNEL_URI=http://www.kernel.org/pub/linux/kernel/v4.x/linux-4.7.3.tar.xz
+KERNEL_URI=http://www.kernel.org/pub/linux/kernel/v5.x/linux-5.4.13.tar.xz
 KERNEL_FILE=$(notdir ${KERNEL_URI})
 KERNEL=$(KERNEL_FILE:.tar.xz=)
 KVER=$(subst linux-,,${KERNEL})
 KVER_MINOR=-64net01
 
-BUSYBOX_URI=http://busybox.net/downloads/busybox-1.25.0.tar.bz2
+BUSYBOX_URI=http://busybox.net/downloads/busybox-1.31.1.tar.bz2
 BUSYBOX_FILE=$(notdir ${BUSYBOX_URI})
 BUSYBOX=$(BUSYBOX_FILE:.tar.bz2=)
 
@@ -67,6 +67,7 @@ prep:
 	libcap-dev \
 	flex bison \
 	debian-archive-keyring debian-keyring \
+	libelf-dev \
 
 .PHONY: initrd
 initrd: initrd-net.img
@@ -118,7 +119,7 @@ ${SRC_DIR}/${KERNEL}/.config: dot.config.kernel
 	egrep  "^CONF" ${SRC_DIR}/${KERNEL}/.config > dot.config.kernel
 
 .PHONY: installkernel
-installkernel: ~/bin/installkernel
+installkernel:
 	mkdir -p ~/bin/
 	sed -e  "s/run-parts --verbose.*//g" -e "s/\/etc\/kernel\/postinst.d//g" /sbin/installkernel > ~/bin/installkernel
 	chmod +x ~/bin/installkernel
@@ -132,8 +133,8 @@ rootfs:
 	bridge-utils,sudo,aptitude,ca-certificates,apt-transport-https,\
 	sudo,gcc,libffi-dev,libssl-dev,git,screen,\
 	linux-image-amd64,grub-pc \
-	jessie $@ http://ftp.jp.debian.org/debian
-	make rootfs-modify
+	buster $@ http://ftp.jp.debian.org/debian
+	make rootfs.modify
 
 .PHONY: rootfs.modify
 rootfs.modify: 

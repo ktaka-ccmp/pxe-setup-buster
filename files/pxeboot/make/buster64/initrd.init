@@ -18,11 +18,11 @@ for i in 0 1 2 3 ; do
 done
 
 SERVER=`cat /etc/dhcp_server`
-/bin/wget -O - http://$SERVER:8088/jessie64/rootfs.tgz |tar zxf - -C /sysroot
+/bin/wget -O - http://$SERVER:8088/buster64/rootfs.tgz |tar zxf - -C /sysroot
 if [ "$VERSION" = "" ]; then
-	/bin/wget -O - http://$SERVER:8088/jessie64/modules.tgz |tar zxf - -C /sysroot
+	/bin/wget -O - http://$SERVER:8088/buster64/modules.tgz |tar zxf - -C /sysroot
 else 
-	/bin/wget -O - http://$SERVER:8088/jessie64/modules.tgz.$VERSION |tar zxf - -C /sysroot
+	/bin/wget -O - http://$SERVER:8088/buster64/modules.tgz.$VERSION |tar zxf - -C /sysroot
 fi
 
 cat /etc/dhcp_lease |cut -f 4 -d "." > /sysroot/etc/hostname

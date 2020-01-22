@@ -42,7 +42,7 @@ mkfs.ext4 -L rootfs ${dev}1
 mkdir ${mntpoint}
 mount -L rootfs ${mntpoint}
 
-wget -O - http://$SERVER:8088/jessie64/rootfs.tgz |tar zxf - -C ${mntpoint}/
+wget -O - http://$SERVER:8088/buster64/rootfs.tgz |tar zxf - -C ${mntpoint}/
 
 grub-install --boot-directory=${mntpoint}/boot/ ${dev}
 
