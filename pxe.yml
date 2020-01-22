@@ -9,7 +9,6 @@
 
   vars:
     packages: 
-#      - isc-dhcp-server
       - tftpd-hpa
       - tftp-hpa
       - nginx-light
